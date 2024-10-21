@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 
 // 連結MongoDB
 mongoose
-  .connect("mongodb:/localhost:27017/GoogleDB")
+  .connect("mongodb://localhost:27017/GoogleDB")
   .then(() => {
-    console.log("Connectiog to mongodb...");
+    console.log("Connecting to mongodb...");
   })
   .catch((e) => {
     console.log(e);

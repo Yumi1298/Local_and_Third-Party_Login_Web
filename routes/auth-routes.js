@@ -16,4 +16,10 @@ router.get(
   })
 );
 
+// 加入passport.authenticate("google")這個middle ware的原因為進到這個路由必須是已經通過驗證的才能使用
+router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+  // redirect重新導向
+  return res.redirect("/profile");
+});
+
 module.exports = router;

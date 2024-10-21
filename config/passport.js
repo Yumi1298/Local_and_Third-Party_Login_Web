@@ -1,6 +1,8 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20");
 const User = require("../models/user-model");
+const LocalStrategy = require("passport-local");
+const bcrypt = require("bcrypt");
 
 // user所自動帶入的值為GoogleStrategy內執行done時的第二個參數
 // 這邊的done，與下方的無關
@@ -51,4 +53,20 @@ passport.use(
       }
     }
   )
+);
+
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    let foundUser = await User.findOne({ email: username });
+    if (foundUser) {
+      let result = await bcrypt.compare(password, foundUser.password);
+      if (result) {
+        done(null, foundUser);
+      } else {
+        done(null, false);
+      }
+    } else {
+      done(null, false); // done的第二個參數false代表沒有被驗證成功
+    }
+  })
 );

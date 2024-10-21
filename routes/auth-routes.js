@@ -53,6 +53,17 @@ router.post("/signup", async (req, res) => {
   return res.redirect("/auth/login");
 });
 
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/auth/login", // 登入失敗重新導向至
+    failureFlash: "登入失敗，帳號或密碼不正確", // 登入(驗證)失敗的訊息，會自動套入在req.flash("error")中
+  }),
+  (req, res) => {
+    return res.redirect("/profile");
+  }
+);
+
 // 加入passport.authenticate("google")這個middle ware的原因為進到這個路由必須是已經通過驗證的才能使用
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   console.log("進入redirect區域");

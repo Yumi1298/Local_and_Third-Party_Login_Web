@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../models/user-model");
+const bcrypt = require("bcrypt");
 
 router.get("/login", (req, res) => {
   return res.render("login", { user: req.user });
@@ -36,7 +37,7 @@ router.post("/signup", async (req, res) => {
   }
 
   // 確認信箱是否被註冊過
-  const foundEmail = await User.findOne({ email });
+  const foundEmail = await User.findOne({ email }).exec();
   if (foundEmail) {
     req.flash(
       "error_msg",
@@ -44,6 +45,12 @@ router.post("/signup", async (req, res) => {
     );
     return res.redirect("/auth/signup");
   }
+
+  let hashedPassword = await bcrypt.hash(password, 12);
+  let newUser = new User({ name, email, password: hashedPassword });
+  await newUser.save();
+  req.flash("success_msg", "恭喜註冊成功! 現在可以登入系統了!");
+  return res.redirect("/auth/login");
 });
 
 // 加入passport.authenticate("google")這個middle ware的原因為進到這個路由必須是已經通過驗證的才能使用

@@ -5,6 +5,13 @@ router.get("/login", (req, res) => {
   return res.render("login");
 });
 
+router.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) return res.send(err);
+    return res.redirect("/");
+  });
+});
+
 router.get(
   "/google",
   // 第一個參數使用甚麼的認證,第二個參數物件

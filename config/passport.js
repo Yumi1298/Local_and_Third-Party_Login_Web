@@ -6,7 +6,9 @@ const User = require("../models/user-model");
 // 這邊的done，與下方的無關
 passport.serializeUser((user, done) => {
   console.log("Serialize序列化使用者");
-  console.log(user);
+  // console.log(user);
+  done(null, user._id); // _id為mongoDB內的id，將mongoDB的id,存在session
+  // 並且將id簽名後，以cookie的形式給使用者
 });
 
 passport.use(

@@ -3,6 +3,7 @@ dotenv.config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const authRoutes = require("./routes/auth-routes");
 
 // 連結MongoDB
 mongoose
@@ -18,6 +19,9 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// 設定routes
+app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
   return res.render("index");

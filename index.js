@@ -9,6 +9,7 @@ const profileRoutes = require("./routes/profile-routes");
 require("./config/passport");
 const session = require("express-session");
 const passport = require("passport");
+const flash = require("connect-flash");
 
 // 連結MongoDB
 mongoose
@@ -36,6 +37,12 @@ app.use(
 app.use(passport.initialize());
 // 讓passport使用此session
 app.use(passport.session());
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+});
 
 // 設定routes
 app.use("/auth", authRoutes);

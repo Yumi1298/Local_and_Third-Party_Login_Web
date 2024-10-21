@@ -12,6 +12,10 @@ router.get("/logout", (req, res) => {
   });
 });
 
+router.get("/signup", (req, res) => {
+  return res.render("signup", { user: req.user });
+});
+
 router.get(
   "/google",
   // 第一個參數使用甚麼的認證,第二個參數物件

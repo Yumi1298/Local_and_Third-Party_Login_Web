@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
+const User = require("../models/user-model");
 
 router.get("/login", (req, res) => {
   return res.render("login", { user: req.user });
@@ -26,6 +27,24 @@ router.get(
     prompt: "select_account",
   })
 );
+
+router.post("/signup", async (req, res) => {
+  let { name, email, password } = req.body;
+  if (password.length < 8) {
+    req.flash("error_msg", "密碼長度過短，至少需要8個數字或英文字");
+    return res.redirect("/auth/signup");
+  }
+
+  // 確認信箱是否被註冊過
+  const foundEmail = await User.findOne({ email });
+  if (foundEmail) {
+    req.flash(
+      "error_msg",
+      "信箱已經被註冊。請使用另一個信箱，或者嘗試使用此信箱登入系統"
+    );
+    return res.redirect("/auth/signup");
+  }
+});
 
 // 加入passport.authenticate("google")這個middle ware的原因為進到這個路由必須是已經通過驗證的才能使用
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {

@@ -8,6 +8,7 @@
     <%- include ("partials/nav") %>
     <main style="padding: 3rem">
       <form action="/auth/signup" method="POST">
+        <%- include ("partials/message") %>
         <div class="form-group">
           <label for="exampleUsername">姓名：</label>
           <input
@@ -43,7 +44,6 @@
             type="password"
             class="form-control"
             id="exampleInputPassword1"
-            minlength="8"
             maxlength="1024"
             name="password"
             required

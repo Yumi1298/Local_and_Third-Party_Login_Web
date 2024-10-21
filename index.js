@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth-routes");
+// 直接require會自動執行裡面的程式碼
+require("./config/passport");
 
 // 連結MongoDB
 mongoose

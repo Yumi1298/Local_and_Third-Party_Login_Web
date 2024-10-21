@@ -11,6 +11,15 @@ passport.serializeUser((user, done) => {
   // 並且將id簽名後，以cookie的形式給使用者
 });
 
+// 第一個參數自動拿到serializeUser的user._id。
+passport.deserializeUser(async (_id, done) => {
+  console.log(
+    "Deserialize使用者。。。將serializeUser儲存的id，去找到資料庫內的資料"
+  );
+  let foundUser = await User.findOne({ _id });
+  done(null, foundUser); // 將req.user這個屬性設定為foundUser
+});
+
 passport.use(
   new GoogleStrategy(
     {

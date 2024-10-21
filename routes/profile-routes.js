@@ -13,4 +13,8 @@ router.get("/", authCheck, (req, res) => {
   return res.render("profile", { user: req.user }); // deSerializeUser()
 });
 
+router.get("/post", authCheck, (req, res) => {
+  return res.render("post", { user: req.user });
+});
+
 module.exports = router;

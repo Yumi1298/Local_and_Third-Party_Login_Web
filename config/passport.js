@@ -2,6 +2,13 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20");
 const User = require("../models/user-model");
 
+// user所自動帶入的值為GoogleStrategy內執行done時的第二個參數
+// 這邊的done，與下方的無關
+passport.serializeUser((user, done) => {
+  console.log("Serialize序列化使用者");
+  console.log(user);
+});
+
 passport.use(
   new GoogleStrategy(
     {
@@ -12,8 +19,8 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("進入google strategy 的區域");
-      console.log(profile);
-      console.log("====================");
+      // console.log(profile);
+      // console.log("====================");
       let foundUser = await User.findOne({ googleID: profile.id }).exec();
       if (foundUser) {
         console.log("使用者已經註冊過了，無須存入資料庫內");

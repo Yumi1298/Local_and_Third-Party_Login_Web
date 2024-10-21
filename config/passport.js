@@ -19,6 +19,14 @@ passport.use(
         console.log("使用者已經註冊過了，無須存入資料庫內");
       } else {
         console.log("偵測到新用戶。需將資料存入資料庫");
+        let newUser = new User({
+          name: profile.displayName,
+          googleID: profile.id,
+          thumbnail: profile.photo[0].value,
+          email: profile.email[0].value,
+        });
+        await newUser.save();
+        console.log("成功創建新用戶");
       }
     }
   )

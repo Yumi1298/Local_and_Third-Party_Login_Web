@@ -11,9 +11,11 @@ const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
 
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/GoogleDB";
+
 // 連結MongoDB
 mongoose
-  .connect("mongodb://localhost:27017/GoogleDB")
+  .connect(MONGO_URI)
   .then(() => {
     console.log("Connecting to mongodb...");
   })
